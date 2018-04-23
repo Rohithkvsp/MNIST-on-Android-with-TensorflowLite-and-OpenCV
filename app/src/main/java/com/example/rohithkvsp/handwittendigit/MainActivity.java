@@ -1,6 +1,7 @@
 package com.example.rohithkvsp.handwittendigit;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
@@ -118,12 +119,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         if(Build.VERSION.SDK_INT >= 23)
             askForPermission(Manifest.permission.CAMERA,CAMERA); //ask for camera permission
-       try {
-            classifier = new Classifier(MainActivity.this);
 
-        } catch (IOException e) {
-            Log.e(TAG, "Failed to initialize an image classifier.", e);
-        }
 
 
 
@@ -161,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     }
 
 
+    @SuppressLint("LongLogTag")
     @Override
     public void onClick(View v) {
         switch (v.getId())
@@ -171,8 +168,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
                     Log.v("Button click CNN_input size ", CNN_input.rows()+" X "+CNN_input.cols()+" X "+CNN_input.channels()+" "+CNN_input.type());
                     //classify cropped image
-                    classifier.classifyMat(CNN_input);
-                    tv.setText("Digit: "+classifier.getdigit()+ " Prob: "+classifier.getProb()+"  ");
+                    if(classifier!=null) {
+                        classifier.classifyMat(CNN_input);
+                        if(classifier.getdigit()!=-1)
+                            tv.setText("Digit: " + classifier.getdigit() + " Prob: " + classifier.getProb() + "          ");
+                        else
+                            tv.setText("tf model not loaded, please reopen the app");
+                    }
                     bt.setText("Back"); ///change button text to Restart
                     PressedOnce = false;
                     mOpenCvCameraView.disableView(); //disable camera
@@ -196,7 +198,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         super.onResume();
         if(Build.VERSION.SDK_INT< 23)
             OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_6, this, mLoaderCallback);
+
         hideSystemUI(); //hide UI
+        try {
+            classifier = new Classifier(MainActivity.this);
+
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to initialize an image classifier.", e);
+        }
     }
 
     @Override
@@ -207,7 +216,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             mOpenCvCameraView.disableView();
             mOpenCvCameraView.stopCamera();
         }
-        classifier.close();
+        if(classifier!=null) {
+            classifier.close();
+        }
 
     }
 
@@ -273,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         Imgproc.GaussianBlur(graytemp, graytemp, new org.opencv.core.Size(7,7),2 , 2);
         //convert gray frame to binary using apadative thresold
         Imgproc.adaptiveThreshold(graytemp, intermediate, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY_INV, 5, 5);
-        Mat element1 = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new org.opencv.core.Size(7,7));
+        Mat element1 = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new org.opencv.core.Size(9,9));
         //dilate the frame
         Imgproc.dilate(intermediate, intermediate, element1);
 

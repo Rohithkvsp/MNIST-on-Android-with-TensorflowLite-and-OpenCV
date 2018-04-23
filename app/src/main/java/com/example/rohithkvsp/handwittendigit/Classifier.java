@@ -60,9 +60,11 @@ public class Classifier {
     public void classifyMat(Mat mat) {
 
         long startTime = SystemClock.uptimeMillis();
+        if(tflite!=null) {
 
-        convertMattoTfLiteInput(mat);
-        runInference();
+            convertMattoTfLiteInput(mat);
+            runInference();
+        }
 
         long endTime = SystemClock.uptimeMillis();
         Log.d(TAG, "Timecost to put values into ByteBuffer and run inference " + Long.toString(endTime - startTime));
@@ -115,7 +117,11 @@ public class Classifier {
     }
     //close interface
     public void close() {
-        tflite.close();
-        tflite = null;
+        if(tflite!=null)
+        {
+            tflite.close();
+            tflite = null;
+        }
+
     }
 }
