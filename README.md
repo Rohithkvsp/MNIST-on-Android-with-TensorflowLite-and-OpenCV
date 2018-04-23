@@ -6,11 +6,13 @@ Apk can be found in apk folder, download and install the apk.
 
 Inorder to recognize hand written digits, Deep learning model was trained. I used tensorflow's [offical MNIST model](https://github.com/tensorflow/models/blob/master/official/mnist/mnist.py) and [MNIST data set](http://yann.lecun.com/exdb/mnist/) to train the Model.
 
-I converted the <b>frozen model</b> to <b>mnist.tflite</b> (optimized [tensorflow lite](https://www.tensorflow.org/mobile/tflite) model for mobile devices)
+<b>Implemention</b>
 
-On Android, recognizing hand written digits in image or from camera feed is challenging. 
+I [converted](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/lite/toco) the <b>frozen model</b> to <b>mnist.tflite</b> (optimized [tensorflow lite](https://www.tensorflow.org/mobile/tflite) model for mobile devices)
+
+On Android, recognizing hand written digits in image or camera feed is challenging. 
 An Image with hand written digit can be feeded directly (downscaled image of model input size) to well trained deep learning model to predict the written digits, <b>But this won't work well!</b>.
-Because model the Model was well trained on clean and prepocessed dataset, but Image with hand written digit taken from camera is not clean (contains noise) and not preprocessed!
+Because the deep learning model was well trained on clean and prepocessed dataset, but Image with hand written digit taken from camera is not clean (contains noise) and not preprocessed!
 
 Before feeding Image taken by the camera to Model, Image was preprocessed. I used <b>OpenCV for Android</b> for preprocessing on Image or Frames.
 
@@ -29,6 +31,9 @@ Before feeding Image taken by the camera to Model, Image was preprocessed. I use
   6) Down scale the cropped image to Model Input size
   
 After the prepocessing, Down scaled image(which is OpenCV Mat) is converted to tensorflow lite input format.
+
+<b>Note:</b>
+Make sure that written digits are large and fits the middle square region shown in the app.
 
 Below shows screenshots from the App.
 
