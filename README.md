@@ -17,7 +17,7 @@ Because the deep learning model was well trained on clean and prepocessed datase
 
 Before feeding Image taken by the camera to Model, Image was preprocessed. I used <b>OpenCV for Android</b> for preprocessing on Image or Frames.
 
-<b>Prepocessing steps:</b>
+<b>Preprocessing steps:</b>
 
   1) converting color image/frame to grayscale
 
