@@ -8,7 +8,8 @@ Inorder to recognize hand written digits, Deep learning model was trained. I use
 
 <b>Implemention</b>
 
-I [converted](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/lite/toco) the <b>frozen model</b> to <b>mnist.tflite</b> (optimized [tensorflow lite](https://www.tensorflow.org/mobile/tflite) model for mobile devices)
+I [converted](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/lite/toco) the <b>frozen model</b> to <b>mnist.tflite</b> (optimized [tensorflow lite](https://www.tensorflow.org/mobile/tflite) model for mobile devices) 
+Here is the [mnist.tfile](https://github.com/Rohithkvsp/MNIST-on-Android-with-TensorflowLite-and-OpenCV/blob/master/app/src/main/assets/mnist.tflite) file.
 
 On Android, recognizing hand written digits in image or camera feed is challenging. 
 An Image with hand written digit can be feeded directly (downscaled image of model input size) to well trained deep learning model to predict the written digits, <b>But this won't work well!</b>.
