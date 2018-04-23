@@ -100,7 +100,6 @@ public class Classifier {
         }
         prob = maxProb;
         digit = maxIndex;
-
         return maxIndex;
     }
     //get predicted digit

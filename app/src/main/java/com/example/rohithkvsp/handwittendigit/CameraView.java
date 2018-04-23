@@ -19,26 +19,24 @@ public class CameraView extends JavaCameraView {
         super(context, attrs);
     }
 
-
+    //get list of preview
     public List<Camera.Size> getResolutionList() {
         return mCamera.getParameters().getSupportedPreviewSizes();
     }
 
+    //start camera by connecting connect camera
     void startcamera()
     {
-        connectCamera(getWidth(), getHeight()); //connect camera
+        connectCamera(getWidth(), getHeight());
     }
 
-
+    //stop the camera and its thread
     void stopCamera()
     {
-        disconnectCamera();//stop the thread
+        disconnectCamera();
     }
 
-
-
-
-
+    // set resolution
     public void setResolution(Camera.Size resolution) {
         disconnectCamera(); //disconnect camera
         mMaxHeight = resolution.height;
@@ -46,14 +44,6 @@ public class CameraView extends JavaCameraView {
         connectCamera(getWidth(), getHeight()); //connect camera
 
     }
-
-
-
-    public Camera.Size getResolution() {
-        return mCamera.getParameters().getPreviewSize();
-    }
-
-
 
 
 }

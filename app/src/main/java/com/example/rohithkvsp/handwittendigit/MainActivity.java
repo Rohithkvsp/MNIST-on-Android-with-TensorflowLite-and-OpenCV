@@ -50,9 +50,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private Mat intermediate;
     private Mat CNN_input;
     private Classifier classifier;
-
     private int CAMERA = 10;
-
     private Button bt;
     private TextView tv;
     private boolean PressedOnce = true;
@@ -90,19 +88,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        // create frame layout
         final FrameLayout layout = new FrameLayout(this);
         layout.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
         setContentView(layout);
 
-
-
+        // opencv surface
         mOpenCvCameraView = new CameraView(this,mCameraIndex);
         mOpenCvCameraView.setCvCameraViewListener(this);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
         layout.addView(mOpenCvCameraView);
-
+        ///add button
         bt = new Button(this);
         bt.setText("classify");
         bt.setId(12345);
@@ -110,8 +107,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         bt.setOnClickListener(this);
         bt.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
         layout.addView(bt);
+        //add text view
         tv = new TextView(this);
-
         tv.setTextColor(Color.WHITE);
         tv.setTextSize(20f);
         tv.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,Gravity.TOP+Gravity.RIGHT));
@@ -127,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     }
 
 
-
+    // ask permission function
     private void askForPermission(String permission, Integer requestCode) {
         if (ContextCompat.checkSelfPermission(MainActivity.this, permission) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permission)) {
@@ -184,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 {
                     tv.setText("");
                     bt.setText("Classify"); ///change button text to Restart
+                    //restart camera
                     mOpenCvCameraView.startcamera();
                     PressedOnce = true;
                 }
@@ -195,11 +193,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     @Override
     public void onResume()
     {
+
         super.onResume();
+        //intialize Opencv
         if(Build.VERSION.SDK_INT< 23)
             OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_6, this, mLoaderCallback);
-
-        hideSystemUI(); //hide UI
+        //hide UI
+        hideSystemUI();
         try {
             classifier = new Classifier(MainActivity.this);
 
@@ -211,11 +211,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     @Override
     public void onPause()
     {
+        //stop camera
         super.onPause();
         if (mOpenCvCameraView != null) {
             mOpenCvCameraView.disableView();
             mOpenCvCameraView.stopCamera();
         }
+        //stop classifier
         if(classifier!=null) {
             classifier.close();
         }
@@ -226,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     protected void onDestroy() {
         // TODO Auto-generated method stub
 
+        //stop camera
         super.onDestroy();
         if(mOpenCvCameraView!=null) {
             mOpenCvCameraView.disableView();
@@ -262,6 +265,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     @Override
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         mRgba=inputFrame.rgba();
+        /// Camera problem with Google Nexus 5x
         if (Build.MODEL.equalsIgnoreCase("Nexus 5X")) //flip the frame on nexus5x
             Core.flip(mRgba, mRgba,-1);
 
@@ -298,6 +302,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         topcorner= mRgba.submat(0,   height, 0, width);
         ///cover grayscale to BGRA
         Imgproc.cvtColor(intermediate, topcorner, Imgproc.COLOR_GRAY2BGRA, 4);
+
+        ///use this to classify camera feed
 
         //classifier.classifyMat(CNN_input);
         //Imgproc.putText(mRgba, "Digit: "+classifier.getdigit()+ " Prob: "+classifier.getProb(), new Point(top, left), 3, 3, new Scalar(255, 0, 0, 255), 2);
