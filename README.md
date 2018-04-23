@@ -8,11 +8,11 @@ Inorder to recognize hand written digits, Deep learning model was trained. I use
 
 I converted the <b>frozen model</b> to <b>mnist.tflite</b> (optimized [tensorflow lite](https://www.tensorflow.org/mobile/tflite) model for mobile devices)
 
-On Android, recognizing hand written digits by in image or from camera feed is challenging. 
-An Image with hand written digit can be feeded directly (downscaled image to model input size) to well trained deep learning model to predict the written digits, <b>But this won't work well!</b>.
-Because model the Model was well trained on clean and prepocessed dataset, but Image with hand written digit taken from camera is not clean (contains noise) and not preprocessed.
+On Android, recognizing hand written digits in image or from camera feed is challenging. 
+An Image with hand written digit can be feeded directly (downscaled image of model input size) to well trained deep learning model to predict the written digits, <b>But this won't work well!</b>.
+Because model the Model was well trained on clean and prepocessed dataset, but Image with hand written digit taken from camera is not clean (contains noise) and not preprocessed!
 
-Before feeding Image taken by the camera to Model is preprocessed. I used OpenCV fro preprocessing on Image or Frames.
+Before feeding Image taken by the camera to Model, Image was preprocessed. I used <b>OpenCV for Android</b> for preprocessing on Image or Frames.
 
 <b>Prepocessing steps:</b>
 
@@ -29,6 +29,38 @@ Before feeding Image taken by the camera to Model is preprocessed. I used OpenCV
   6) Down scale the cropped image to Model Input size
   
 After the prepocessing, Down scaled image(which is OpenCV Mat) is converted to tensorflow lite input format.
+
+Below shows screenshots from the App.
+
+![screenshot0](https://github.com/Rohithkvsp/MNIST-on-Android-with-TensorflowLite-and-OpenCV/blob/master/screenshots/Screenshot_0.png)
+
+
+![screenshot1](https://github.com/Rohithkvsp/MNIST-on-Android-with-TensorflowLite-and-OpenCV/blob/master/screenshots/Screenshot_1.png)
+
+
+![screenshot2](https://github.com/Rohithkvsp/MNIST-on-Android-with-TensorflowLite-and-OpenCV/blob/master/screenshots/Screenshot_2.png)
+
+
+![screenshot3](https://github.com/Rohithkvsp/MNIST-on-Android-with-TensorflowLite-and-OpenCV/blob/master/screenshots/Screenshot_3.png)
+
+
+![screenshot4](https://github.com/Rohithkvsp/MNIST-on-Android-with-TensorflowLite-and-OpenCV/blob/master/screenshots/Screenshot_4.png)
+
+
+![screenshot5](https://github.com/Rohithkvsp/MNIST-on-Android-with-TensorflowLite-and-OpenCV/blob/master/screenshots/Screenshot_5.png)
+
+
+![screenshot6](https://github.com/Rohithkvsp/MNIST-on-Android-with-TensorflowLite-and-OpenCV/blob/master/screenshots/Screenshot_6.png)
+
+
+![screenshot7](https://github.com/Rohithkvsp/MNIST-on-Android-with-TensorflowLite-and-OpenCV/blob/master/screenshots/Screenshot_7.png)
+
+
+![screenshot8](https://github.com/Rohithkvsp/MNIST-on-Android-with-TensorflowLite-and-OpenCV/blob/master/screenshots/Screenshot_8.png)
+
+
+![screenshot9](https://github.com/Rohithkvsp/MNIST-on-Android-with-TensorflowLite-and-OpenCV/blob/master/screenshots/Screenshot_9.png)
+
 
 
   
