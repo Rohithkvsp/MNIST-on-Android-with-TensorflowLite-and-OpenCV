@@ -12,7 +12,7 @@ I [converted](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/co
 Here is the [mnist.tfile](https://github.com/Rohithkvsp/MNIST-on-Android-with-TensorflowLite-and-OpenCV/blob/master/app/src/main/assets/mnist.tflite) file.
 
 On Android, recognizing hand written digits in image or camera feed is challenging. 
-An Image with hand written digit can be feeded directly (downscaled image of model input size) to well trained deep learning model to predict the written digits, <b>But this won't work well!</b>.
+An Image with hand written digit feed directly (downscaled image of model input size) to well trained deep learning model to predict the written digits, <b>But this won't work well!</b>.
 Because the deep learning model was well trained on clean and prepocessed dataset, but Image with hand written digit taken from camera is not clean (contains noise) and not preprocessed!
 
 Before feeding Image taken by the camera to Model, Image was preprocessed. I used <b>OpenCV for Android</b> for preprocessing on Image or Frames.
